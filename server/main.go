@@ -12,11 +12,16 @@ func main() {
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
 
-	r.GET("/register", registerPage)
-	r.POST("/register", registerHandler)
+	// Public routes (redirect if already logged in)
+	public := r.Group("/")
+	public.Use(redirectIfAuthenticatedMiddleware())
+	{
+		public.GET("/register", registerPage)
+		public.POST("/register", registerHandler)
 
-	r.GET("/login", loginPage)
-	r.POST("/login", loginHandler)
+		public.GET("/login", loginPage)
+		public.POST("/login", loginHandler)
+	}
 
 	log.Println("Server starting on :8080...")
 	if err := r.Run(":8080"); err != nil {
