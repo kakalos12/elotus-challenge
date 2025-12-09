@@ -23,6 +23,13 @@ func main() {
 		public.POST("/login", loginHandler)
 	}
 
+	authorized := r.Group("/")
+	authorized.Use(authMiddleware())
+	{
+		authorized.GET("/upload", uploadPage)
+		authorized.POST("/upload", uploadHandler)
+	}
+
 	log.Println("Server starting on :8080...")
 	if err := r.Run(":8080"); err != nil {
 		log.Fatal(err)
