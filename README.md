@@ -11,7 +11,7 @@ To get the application running using Docker Compose, follow these steps:
 
 2.  Build and start the services defined in `docker-compose.yml` in detached mode:
     ```bash
-    docker-compose up --build -d
+    docker compose up -d
     ```
 
     This will start two services:
